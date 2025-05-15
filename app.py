@@ -12,7 +12,7 @@ if 'task_manager' not in st.session_state:
 
 # Page config
 st.set_page_config(page_title="Task Manager", layout="wide")
-st.title("📝 Task Manager")
+st.title("Task Manager")
 
 # Sidebar for adding tasks
 with st.sidebar:
@@ -91,9 +91,9 @@ with col1:
                 
                 # Show decorator information
                 if isinstance(task, ReminderDecorator):
-                    st.caption(f"🔔 Reminder: {task.reminder_time.strftime('%Y-%m-%d %H:%M')}")
+                    st.caption(f"Reminder: {task.reminder_time.strftime('%Y-%m-%d %H:%M')}")
                 if isinstance(task, LabelDecorator):
-                    st.caption(f"🏷️ Label: {task.label}")
+                    st.caption(f"Label: {task.label}")
             
             with col_actions:
                 if st.button("Delete", key=f"delete_{task.id}"):

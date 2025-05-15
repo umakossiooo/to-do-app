@@ -73,3 +73,131 @@ A task management application built with Python and Streamlit.
 - Python 3.7+
 - Streamlit
 - python-dateutil 
+
+
+## UML Diagram
+
+```
+classDiagram
+    %% Enums
+    class Priority {
+        <<enumeration>>
+        LOW
+        MEDIUM
+        HIGH
+    }
+
+    %% Observer Pattern
+    class Observer {
+        <<abstract>>
+        +update(task: Task)*
+    }
+    
+    class Subject {
+        -_observers: List[Observer]
+        +__init__()
+        +attach(observer: Observer)
+        +detach(observer: Observer)
+        +notify(task: Task)
+    }
+
+    %% Base Task
+    class Task {
+        +__init__(title: str, category: str, priority: Priority)
+        +id: Optional[int]
+        +title: str
+        +category: str
+        +priority: Priority
+        +completed: bool
+        +created_at: datetime
+        +deadline: Optional[datetime]
+        +mark_complete()
+        +mark_incomplete()
+        +set_deadline(deadline: datetime)
+    }
+
+    %% Factory Pattern
+    class TaskFactory {
+        <<abstract>>
+        +create_task(title: str, category: str)*: Task
+    }
+
+    class StandardTaskFactory {
+        +create_task(title: str, category: str): Task
+    }
+
+    class UrgentTaskFactory {
+        +create_task(title: str, category: str): Task
+    }
+
+    %% Decorator Pattern
+    class TaskDecorator {
+        -_task: Task
+        +__init__(task: Task)
+        +id: Optional[int]
+        +title: str
+        +category: str
+        +priority: Priority
+        +completed: bool
+        +created_at: datetime
+        +deadline: Optional[datetime]
+    }
+
+    class ReminderDecorator {
+        +reminder_time: datetime
+        +__init__(task: Task, reminder_time: datetime)
+    }
+
+    class LabelDecorator {
+        +label: str
+        +__init__(task: Task, label: str)
+    }
+
+    %% Strategy Pattern
+    class SortStrategy {
+        <<abstract>>
+        +sort(tasks: List[Task])*: List[Task]
+    }
+
+    class DateSortStrategy {
+        +sort(tasks: List[Task]): List[Task]
+    }
+
+    class PrioritySortStrategy {
+        +sort(tasks: List[Task]): List[Task]
+    }
+
+    class CategorySortStrategy {
+        +sort(tasks: List[Task]): List[Task]
+    }
+
+    %% Task Manager
+    class TaskManager {
+        -tasks: List[Task]
+        -_current_id: int
+        -sort_strategy: SortStrategy
+        +__init__()
+        +add_task(task: Task)
+        +remove_task(task_id: int)
+        +get_tasks(): List[Task]
+        +set_sort_strategy(strategy: SortStrategy)
+        +get_task_by_id(task_id: int): Optional[Task]
+    }
+
+    %% Relationships
+    Task --|> Subject : inherits
+    Subject ..> Observer : notifies
+    TaskFactory <|-- StandardTaskFactory : implements
+    TaskFactory <|-- UrgentTaskFactory : implements
+    Task <|-- TaskDecorator : extends
+    TaskDecorator <|-- ReminderDecorator : extends
+    TaskDecorator <|-- LabelDecorator : extends
+    SortStrategy <|-- DateSortStrategy : implements
+    SortStrategy <|-- PrioritySortStrategy : implements
+    SortStrategy <|-- CategorySortStrategy : implements
+    TaskManager o-- "0..*" Task : contains
+    TaskManager o-- "1" SortStrategy : uses
+    StandardTaskFactory ..> Task : creates
+    UrgentTaskFactory ..> Task : creates
+    Task --> Priority : has type 
+    ```
