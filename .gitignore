@@ -1,0 +1,30 @@
+# Python virtual environment
+env/
+venv/
+ENV/
+
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+
+# IDE specific files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Environment variables
+.env
+
+# Streamlit specific
+.streamlit/
+
+# Operating System
+.DS_Store
+Thumbs.db 
