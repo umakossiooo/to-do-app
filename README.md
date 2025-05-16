@@ -77,7 +77,10 @@ A task management application built with Python and Streamlit.
 
 ## UML Diagram
 
-```
+- First install the Markdown Preview Mermaid Support for VS Code
+- Then make right click on the README.md file and select "Open Preview"
+
+```mermaid
 classDiagram
     %% Enums
     class Priority {
@@ -200,4 +203,4 @@ classDiagram
     StandardTaskFactory ..> Task : creates
     UrgentTaskFactory ..> Task : creates
     Task --> Priority : has type 
-    ```
+```
