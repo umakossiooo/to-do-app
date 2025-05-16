@@ -35,38 +35,49 @@ A task management application built with Python and Streamlit.
 
 ## Design Patterns Implemented
 
-1. **Factory Method Pattern**
-   - Creates different types of tasks (standard and urgent)
-   - Encapsulates task creation logic
+1. Factory Method Pattern
 
-2. **Decorator Pattern**
-   - Adds features like reminders and labels to tasks
-   - Maintains single responsibility principle
+    Design Problem:
+    The system needed a way to create different types of tasks, such as standard and urgent tasks, without using conditional logic in multiple places.
 
-3. **Observer Pattern**
-   - Notifies UI components when task status changes
-   - Keeps UI in sync with task state
+    Pattern Reason:
+    The Factory Method pattern helps encapsulate object creation. It allows defining a common interface for creating objects while letting subclasses decide which class to instantiate.
 
-4. **Strategy Pattern**
-   - Implements different sorting strategies
-   - Easily switch between sorting methods
+    Implemented Solution:
+    An abstract class TaskFactory defines the method create_task. Subclasses like StandardTaskFactory and UrgentTaskFactory implement this method to return different task instances. This keeps task creation modular and extendable.
 
-## Usage
+2. Decorator Pattern
 
-1. **Adding Tasks**
-   - Use the sidebar to add new tasks
-   - Fill in the task details (title, category, priority)
-   - Optionally add reminders and labels
-   - Click "Add Task" to create the task
+    Design Problem:
+    Tasks needed optional features like reminders and labels. Adding these features directly into the Task class would violate the single responsibility principle and make the class harder to maintain.
 
-2. **Managing Tasks**
-   - Check/uncheck tasks to mark them as complete/incomplete
-   - Delete tasks using the delete button
-   - Sort tasks using the dropdown menu
+    Pattern Reason:
+    The Decorator pattern allows adding extra behavior or data to individual objects without modifying their class. It supports flexible extension of functionalities.
 
-3. **Viewing Statistics**
-   - View total tasks and completion rate
-   - See task distribution by category
+    Implemented Solution:
+    A base TaskDecorator class wraps a Task object. Subclasses such as ReminderDecorator and LabelDecorator add specific functionality (e.g., a reminder time or a custom label) to the task while maintaining the original interface.
+
+3. Observer Pattern
+
+    Design Problem:
+    When a task's state changed (e.g., marked as completed), the system needed to update related components like the UI or a statistics counter.
+
+    Pattern Reason:
+    The Observer pattern defines a one-to-many relationship between objects. When one object changes, all its dependents are notified and updated automatically.
+
+    Implemented Solution:
+    The Task class extends a Subject class that maintains a list of observers. When a task is updated, it triggers the notify method, which calls the update method in each observer.
+
+4. Strategy Pattern
+
+    Design Problem:
+    Tasks needed to be sorted by different criteria such as date, priority, or category. Hardcoding sorting logic made the system inflexible.
+
+    Pattern Reason:
+    The Strategy pattern allows defining a family of algorithms, encapsulating each one, and making them interchangeable. This supports flexible runtime behavior.
+
+    Implemented Solution:
+    An interface SortStrategy defines a sort method. Concrete classes like DateSortStrategy, PrioritySortStrategy, and CategorySortStrategy implement this method differently. The TaskManager selects the active sorting strategy and applies it to the task list.
 
 ## Requirements
 
